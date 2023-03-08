@@ -13,6 +13,11 @@ public class SqlPropertiesConfig {
 	
 	private String password;
 
+	
+	public SqlPropertiesConfig() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getUrl() {
 		return url;
 	}
@@ -20,8 +25,6 @@ public class SqlPropertiesConfig {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
-
 
 	public String getUsername() {
 		return username;

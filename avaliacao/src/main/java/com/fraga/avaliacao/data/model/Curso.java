@@ -1,6 +1,7 @@
 package com.fraga.avaliacao.data.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class Curso implements Serializable {
@@ -17,6 +18,8 @@ public class Curso implements Serializable {
 	private String descricao;
 	
 	private Integer duracao;
+	
+	private List<Integer> turmas;
 	
 	public Curso() {
 		// TODO Auto-generated constructor stub
@@ -62,10 +65,21 @@ public class Curso implements Serializable {
 		this.duracao = duracao;
 	}
 
+	
+	
+	public List<Integer> getTurmas() {
+		return turmas;
+	}
+
+	public void setTurmas(List<Integer> turmas) {
+		this.turmas = turmas;
+	}
+
+	
 	@Override
 	public String toString() {
-		return "Curso [codigoInteger=" + codigo + ", nome=" + nome + ", descricao=" + descricao + ", duracao="
-				+ duracao + "]";
+		return "Curso [codigo=" + codigo + ", nome=" + nome + ", descricao=" + descricao + ", duracao=" + duracao
+				+ ", turmas=" + turmas + "]";
 	}
 
 	@Override

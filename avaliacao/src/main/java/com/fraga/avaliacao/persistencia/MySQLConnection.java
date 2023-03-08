@@ -11,25 +11,35 @@ import com.fraga.avaliacao.config.SqlPropertiesConfig;
 
 @Component
 public class MySQLConnection implements SQLConnection {
-	
+
 	private Connection connection;
 
-	public MySQLConnection(SqlPropertiesConfig properties){
-        try {
-        	connection = DriverManager.getConnection(properties.getUrl(), properties.getUsername(), properties.getPassword());
+	public MySQLConnection(SqlPropertiesConfig properties) {
+		try {
+			connection = DriverManager.getConnection(properties.getUrl(), properties.getUsername(),
+					properties.getPassword());
 		} catch (SQLException e) {
 			System.out.println("Erro ao tentar conectar ao banco de dados. " + e.getMessage());
-			e.printStackTrace();
 		}
-    }
-    
-    @Override
-	public Connection getConnection() {
-        return connection;
-    }
+	}
 
-    @Override
+	
+	@Override
+	public Connection getConnection(SqlPropertiesConfig properties) {
+		try {
+			if(connection.isClosed()) {
+			connection = DriverManager.getConnection(properties.getUrl(), properties.getUsername(),
+					properties.getPassword());
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao tentar conectar ao banco de dados. " + e.getMessage());
+		}
+		
+		return connection;
+	}
+
+	@Override
 	public void closeConnection() throws SQLException {
-        connection.close();
-    }
+		connection.close();
+	}
 }

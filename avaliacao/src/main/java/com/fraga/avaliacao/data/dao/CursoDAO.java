@@ -1,19 +1,20 @@
 package com.fraga.avaliacao.data.dao;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 
-public class CursoDAO {
+import com.github.dozermapper.core.Mapping;
+
+public class CursoDAO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
-	@JsonProperty
-	private Integer codigo;
+	@Mapping("codigo")
+	private Integer key;
 	
-	@JsonProperty
 	private String nome;
 	
-	@JsonProperty
 	private String descricao;
 	
-	@JsonProperty
 	private Integer duracao;
 	
 	
@@ -22,23 +23,12 @@ public class CursoDAO {
 	}
 
 	
-	
-	public CursoDAO(Integer codigo, String nome, String descricao, Integer duracao) {
-		super();
-		this.codigo = codigo;
-		this.nome = nome;
-		this.descricao = descricao;
-		this.duracao = duracao;
-	}
-
-
-
 	public Integer getCodigo() {
-		return codigo;
+		return key;
 	}
 
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+	public void setCodigo(Integer key) {
+		this.key = key;
 	}
 
 	public String getNome() {
