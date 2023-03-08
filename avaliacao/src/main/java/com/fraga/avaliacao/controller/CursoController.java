@@ -28,11 +28,6 @@ public class CursoController {
 		return ResponseEntity.ok(service.getAll());
 	}
 	
-	@GetMapping("/code/{codigo}")
-	public ResponseEntity<CursoDAO> getById(@PathVariable("codigo") Integer codigo) {
-		return ResponseEntity.ok(service.getById(codigo));
-	}
-
 	@PostMapping()
 	public ResponseEntity<?> create(@RequestBody CursoDAO cursoDAO) {
 		service.create(cursoDAO);

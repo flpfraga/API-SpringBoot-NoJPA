@@ -19,7 +19,7 @@ public class TurmaRepository extends RepositoryDefault<Turma, Integer> {
 	public List<Turma> getByCurso(String entityName, Integer curso_codigo){
 		List<Turma> entities = new ArrayList<>();
 		try {
-			PreparedStatement stmt = openConnection("SELECT * FROM " + entityName +" WHERE curso_codigo = ?");
+			PreparedStatement stmt = openConnection("SELECT * FROM " + entityName +" WHERE curso_codigo = ? ORDER BY inicio DESC, fim DESC");
 			stmt.setInt(1, curso_codigo);
 			ResultSet rs = stmt.executeQuery();
 			entities = extrairList(rs);
@@ -32,13 +32,27 @@ public class TurmaRepository extends RepositoryDefault<Turma, Integer> {
 		return entities;
 	}
 	
+	public Integer countParticipantesByTurma(Integer curso_turma) {
+		Integer nRegistros = 0;
+		try {
+			PreparedStatement stmt = openConnection("SELECT COUNT(*) FROM turmaparticipante WHERE turma_codigo = ?");
+			stmt.setInt(1, curso_turma);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				nRegistros = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new SQLPersistenceException(e.getMessage());
+		}
+		return nRegistros;
+	}
+	
 	@Override
 	public List<Turma> extrairList(ResultSet rs) throws SQLException{
 		List<Turma> turmas = new ArrayList<>();
 		while (rs.next()) {
 			turmas.add(new Turma(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getInt(4), rs.getString(5)));
 		}
-		turmas.forEach(t -> System.out.println(t.toString()));
 		return turmas;
 	}
 
@@ -73,7 +87,7 @@ public class TurmaRepository extends RepositoryDefault<Turma, Integer> {
 	}
 	
 	
-	public void includeParticipante(Integer turma_codigo, Integer funcionario_codigo) {
+	public void createParticipante(Integer turma_codigo, Integer funcionario_codigo) {
 		try {
 			PreparedStatement stmt = openConnection("INSERT INTO turmaparticipante (turma_codigo, funcionario_codigo) value (?,?)");
 			stmt.setInt(1, turma_codigo);
@@ -102,5 +116,16 @@ public class TurmaRepository extends RepositoryDefault<Turma, Integer> {
 			throw new SQLPersistenceException(e.getMessage());
 		}
 		return funcionarios;
+	}
+	
+	public void deleteParticipante(Integer turma_codigo, Integer funcionario_codigo) {
+		try {
+			PreparedStatement stmt = openConnection("DELETE FROM turmaparticipante WHERE turma_codigo = ? AND WHERE funcionario_codigo = ?");
+			stmt.setInt(1, turma_codigo);
+			stmt.setInt(2, funcionario_codigo);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new SQLPersistenceException(e.getMessage());
+		}
 	}
 }

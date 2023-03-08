@@ -41,7 +41,12 @@ public class TurmaService {
 				.orElseThrow(() -> new ResourceNotFoundException("Not matches for this course code."));
 		
 		List<Turma> turmas = repository.getByCurso(entityName, curso_codigo);
-		return DozerConverter.parseList(turmas, TurmaDAO.class);
+		
+		List<TurmaDAO> turmasDAO = DozerConverter.parseList(turmas, TurmaDAO.class);
+		for (TurmaDAO t : turmasDAO) {
+			t.setNparticipantes(repository.countParticipantesByTurma(t.getCodigo()));
+		}
+		return turmasDAO;
 		
 	}
 
@@ -83,14 +88,14 @@ public class TurmaService {
 	}
 	
 	
-	public void includeParticipante(Integer turma_codigo, Integer funcionario_codigo) {
+	public void createParticipante(Integer turma_codigo, Integer funcionario_codigo) {
 		repository.getById(turma_codigo, entityName)
 		.orElseThrow(() -> new ResourceNotFoundException("Not matcher for this code!"));
 		
 		funcionarioRepository.getById(funcionario_codigo, "funcionario")
 		.orElseThrow(() -> new ResourceNotFoundException("Not matcher for this code!"));
 		
-		repository.includeParticipante(turma_codigo, funcionario_codigo);
+		repository.createParticipante(turma_codigo, funcionario_codigo);
 	}
 	
 	public List<FuncionarioDAO> getParticipanteByTurma(Integer turma_codigo){
@@ -98,6 +103,10 @@ public class TurmaService {
 		.orElseThrow(() -> new ResourceNotFoundException("Not matcher for this code!"));
 		
 		return DozerConverter.parseList(repository.getParticipanteByTurma(turma_codigo), FuncionarioDAO.class);
+		
+	}
+	
+	public void deleteParticipante (Integer turma_codigo, Integer funcionario_codigo) {
 		
 	}
 

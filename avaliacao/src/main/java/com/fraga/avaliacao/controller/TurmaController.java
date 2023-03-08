@@ -24,20 +24,12 @@ public class TurmaController {
 	@Autowired
 	private TurmaService service;
 	
-	@GetMapping()
-	public ResponseEntity<List<TurmaDAO>> getAll() {
-		return ResponseEntity.ok(service.getAll());
-	}
+
 	@GetMapping("curso/{curso_codigo}")
 	public ResponseEntity<List<TurmaDAO>> getByCurso(@PathVariable("curso_codigo") Integer curso_codigo) {
 		return ResponseEntity.ok(service.getByCurso(curso_codigo));
 	}
 	
-	@GetMapping("/code/{codigo}")
-	public ResponseEntity<TurmaDAO> getById(@PathVariable("codigo") Integer codigo) {
-		return ResponseEntity.ok(service.getById(codigo));
-	}
-
 	@PostMapping("code/{curso_codigo}")
 	public ResponseEntity<?> create(
 			@PathVariable("curso_codigo") Integer cursoCodigo
@@ -62,15 +54,25 @@ public class TurmaController {
 	
 	
 	@PostMapping("/participante/{turma_codigo}/{funcionario_codigo}")
-	public ResponseEntity<?> includeParticipante(
+	public ResponseEntity<?> createParticipante(
 			@PathVariable("turma_codigo") Integer turma_codigo
 			,@PathVariable("funcionario_codigo") Integer funcionario_codigo) {
-		service.includeParticipante(turma_codigo, funcionario_codigo);
+		service.createParticipante(turma_codigo, funcionario_codigo);
 		return ResponseEntity.ok().build();
 	}
+	
 	@GetMapping("/participante/{turma_codigo}")
 	public ResponseEntity<List<FuncionarioDAO>> getParticipanteByTurma(@PathVariable("turma_codigo") Integer turma_codigo) {
 		return ResponseEntity.ok(service.getParticipanteByTurma(turma_codigo));
+	}
+	
+	@DeleteMapping("/participante/{turma_codigo}/{funcionario_codigo}")
+	public ResponseEntity<?> deleteParticipante(
+			@PathVariable("turma_codigo") Integer turma_codigo
+			,@PathVariable("funcionario_codigo") Integer funcionario_codigo) {
+		
+		service.deleteParticipante(turma_codigo, funcionario_codigo);
+		return ResponseEntity.noContent().build();
 	}
 	
 

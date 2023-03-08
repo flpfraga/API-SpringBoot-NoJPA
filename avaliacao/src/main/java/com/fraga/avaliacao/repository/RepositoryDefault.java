@@ -91,7 +91,6 @@ public abstract class RepositoryDefault<D, T> {
 	public void save(D entity, String entityName) {
 		try {
 			String sql = createParamsQuery(entity);
-			System.out.println(sql);
 			PreparedStatement stmt = openConnection("INSERT INTO "+entityName+ ""+sql+"");
 			stmt = setCreateParameters(stmt, entity);
 			stmt.executeUpdate();

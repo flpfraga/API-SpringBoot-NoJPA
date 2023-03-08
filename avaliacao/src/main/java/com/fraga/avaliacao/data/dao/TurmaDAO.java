@@ -1,7 +1,10 @@
 package com.fraga.avaliacao.data.dao;
 
 import java.sql.Date;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fraga.avaliacao.data.model.Funcionario;
 
 public class TurmaDAO {
 
@@ -14,6 +17,8 @@ public class TurmaDAO {
 	private String local;
 	
 	private Integer curso_codigo;
+	
+	private Integer participantes;
 	
 	public TurmaDAO() {
 		// TODO Auto-generated constructor stub
@@ -57,6 +62,15 @@ public class TurmaDAO {
 
 	public void setCurso_codigo(Integer curso_codigo) {
 		this.curso_codigo = curso_codigo;
+	}
+	
+	
+	public Integer getNparticipantes() {
+		return participantes;
+	}
+
+	public void setNparticipantes(Integer participantes) {
+		this.participantes = participantes;
 	}
 
 	@Override

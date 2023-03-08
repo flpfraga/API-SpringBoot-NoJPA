@@ -22,8 +22,6 @@ public class Turma implements Serializable {
 
 	private Integer curso_codigo;
 
-	
-
 	public Turma() {
 		// TODO Auto-generated constructor stub
 	}
